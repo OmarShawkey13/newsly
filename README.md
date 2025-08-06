@@ -116,11 +116,4 @@ MIT License – feel free to use and modify.
 ## 👨‍💻 Developed by
 
 **Omar Shawkey**  
-[GitHub](https://github.com/omarshawkey) – [LinkedIn](https://www.linkedin.com/in/omarshawkey)
-
----
-
-## 📌 Notes
-
-- NewsAPI.org has **rate limits** for free usage
-- This project is meant for **portfolio/CV/demo** purposes
+[GitHub](https://github.com/omarshawkey13) – [LinkedIn](https://www.linkedin.com/in/omar-shawkey-07044b300/)
