@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                             cubit.changeThemeMode();
                           },
                         ),
-                        const SizedBox(width: 8),
+                        horizontalSpace8,
                         const CircleAvatar(
                           radius: 24.0,
                           backgroundImage: NetworkImage(
