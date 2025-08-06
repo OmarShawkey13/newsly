@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-String? token = '';
-
 double getResponsiveSize({
   required BuildContext context,
   required double size,
