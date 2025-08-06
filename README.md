@@ -17,6 +17,7 @@ A sleek, fast, and clean **Flutter** application that fetches and displays the l
 - 🔍 Search for real-time news with debounced input
 - 🧠 Built using **Bloc/Cubit** for clean state management
 - 💾 Caches data locally using `SharedPreferences`
+- 🖼️ Efficient image loading with CachedNetworkImage and error handling
 - 🌙 Light/Dark theme toggle with full support
 - 🧱 Uses **Clean Architecture** (domain/data/presentation separation)
 - ✅ Structured with **Test-Driven Development** in mind

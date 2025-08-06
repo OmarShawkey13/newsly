@@ -44,19 +44,21 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Hello, Omar 👋',
-                                style: TextStylesManager.bold20(context).copyWith(
-                                  color: cubit.isDark
-                                      ? ColorsManager.textColorDark
-                                      : ColorsManager.textColor,
-                                ),
+                                style: TextStylesManager.bold20(context)
+                                    .copyWith(
+                                      color: cubit.isDark
+                                          ? ColorsManager.textColorDark
+                                          : ColorsManager.textColor,
+                                    ),
                               ),
                               Text(
                                 'Search Your Daily News',
-                                style: TextStylesManager.regular16(context).copyWith(
-                                  color: cubit.isDark
-                                      ? Colors.grey[400]
-                                      : Colors.grey[700],
-                                ),
+                                style: TextStylesManager.regular16(context)
+                                    .copyWith(
+                                      color: cubit.isDark
+                                          ? Colors.grey[400]
+                                          : Colors.grey[700],
+                                    ),
                               ),
                             ],
                           ),
