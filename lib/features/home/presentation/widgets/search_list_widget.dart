@@ -56,7 +56,9 @@ class SearchListWidget extends StatelessWidget {
                   width: 120.0,
                   height: 120.0,
                   decoration: BoxDecoration(
-                    color: cubit.isDark ? ColorsManager.primaryDarkColor : ColorsManager.primaryColor,
+                    color: cubit.isDark
+                        ? ColorsManager.primaryDarkColor
+                        : ColorsManager.primaryColor,
                     borderRadius: BorderRadius.circular(20.0),
                     image: DecorationImage(
                       image: NetworkImage(article?.urlToImage ?? ''),

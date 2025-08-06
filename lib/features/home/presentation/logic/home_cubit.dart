@@ -72,14 +72,14 @@ class HomeCubit extends Cubit<HomeStates> {
     );
 
     result.fold(
-          (l) {
+      (l) {
         emit(
           HomeErrorState(
             l,
           ),
         );
       },
-          (r) {
+      (r) {
         searchModel = EverythingModel.fromMap(r.data);
         emit(
           HomeSuccessState(),

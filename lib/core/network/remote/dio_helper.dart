@@ -38,7 +38,7 @@ class DioHelper {
       final Response response = await getDio().get(
         url,
         queryParameters: {
-          if(search != null) 'q': search,
+          if (search != null) 'q': search,
           ...?query,
         },
         options: Options(

@@ -30,8 +30,12 @@ class ColorsManager {
   static const Color blackColor = Color(0xFF000000);
 
   // Search Bar Colors
-  static const Color searchBackground = Color(0xFFF1F3F4); // Light theme background
-  static const Color searchBackgroundDark = Color(0xFF1C1C1E); // Dark theme background
+  static const Color searchBackground = Color(
+    0xFFF1F3F4,
+  ); // Light theme background
+  static const Color searchBackgroundDark = Color(
+    0xFF1C1C1E,
+  ); // Dark theme background
 
   static const Color searchBorder = Color(0xFFCED4DA);
   static const Color searchBorderDark = Color(0xFF2C2C2E);
@@ -44,7 +48,7 @@ class ColorsManager {
 
   // Chips
   static const Color chipBackgroundLight = Color(0xFFE0E0E0); // Light gray
-  static const Color chipBackgroundDark = Color(0xFF2C2C2E);  // Dark gray
+  static const Color chipBackgroundDark = Color(0xFF2C2C2E); // Dark gray
 
   static const Color chipSelectedBackgroundLight = primaryColor;
   static const Color chipSelectedBackgroundDark = primaryDarkColor;

@@ -24,8 +24,7 @@ class ThemesManager {
         backgroundColor: ColorsManager.cardColor,
         foregroundColor: ColorsManager.textColor,
         textStyle: TextStylesManager.bold14(context),
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -37,8 +36,7 @@ class ThemesManager {
       labelStyle: TextStylesManager.regular14(context).copyWith(
         color: ColorsManager.textColor,
       ),
-      contentPadding:
-      const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: ColorsManager.gray),
@@ -74,8 +72,7 @@ class ThemesManager {
         backgroundColor: ColorsManager.cardColorDark,
         foregroundColor: ColorsManager.textColorDark,
         textStyle: TextStylesManager.bold14(context),
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -87,8 +84,7 @@ class ThemesManager {
       labelStyle: TextStylesManager.regular14(context).copyWith(
         color: ColorsManager.textColorDark,
       ),
-      contentPadding:
-      const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: ColorsManager.darkGray),

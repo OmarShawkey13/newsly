@@ -17,7 +17,12 @@ class EverythingModel {
       status: map['status'] as String?,
       totalResults: map['totalResults'] as int?,
       articles: map['articles'] != null
-          ? (map['articles'] as List<dynamic>?)?.map((article) => ArticleModel.fromMap(article as Map<String, dynamic>)).toList()
+          ? (map['articles'] as List<dynamic>?)
+                ?.map(
+                  (article) =>
+                      ArticleModel.fromMap(article as Map<String, dynamic>),
+                )
+                .toList()
           : null,
     );
   }

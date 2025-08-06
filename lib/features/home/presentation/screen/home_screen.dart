@@ -36,18 +36,45 @@ class HomeScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Search Your Daily News',
-                          style: TextStylesManager.bold20(context).copyWith(
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hello, Omar 👋',
+                                style: TextStylesManager.bold20(context).copyWith(
+                                  color: cubit.isDark
+                                      ? ColorsManager.textColorDark
+                                      : ColorsManager.textColor,
+                                ),
+                              ),
+                              Text(
+                                'Search Your Daily News',
+                                style: TextStylesManager.regular16(context).copyWith(
+                                  color: cubit.isDark
+                                      ? Colors.grey[400]
+                                      : Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            cubit.isDark ? Icons.light_mode : Icons.dark_mode,
                             color: cubit.isDark
                                 ? ColorsManager.textColorDark
                                 : ColorsManager.textColor,
                           ),
+                          onPressed: () {
+                            cubit.changeThemeMode();
+                          },
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 8),
                         const CircleAvatar(
-                          radius: 30.0,
+                          radius: 24.0,
                           backgroundImage: NetworkImage(
                             'https://avatars.githubusercontent.com/u/81522507?v=4',
                           ),
@@ -55,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  verticalSpace16,
+                  verticalSpace8,
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: SearchBar(

@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
       create: (context) => HomeCubit()
         ..changeThemeMode(
           fromShared: isDark,
-        )..getTopHeadlines(),
+        )
+        ..getTopHeadlines(),
       child: BlocBuilder<HomeCubit, HomeStates>(
         builder: (BuildContext context, HomeStates state) {
           final cubit = HomeCubit.get(context);
