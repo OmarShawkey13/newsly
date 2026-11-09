@@ -15,23 +15,31 @@ class HomeCubit extends Cubit<HomeStates> {
 
   final TextEditingController searchController = TextEditingController();
   Timer? _searchDebounce;
+  bool _hasSearchText = false;
 
   EverythingModel? searchModel;
 
   void searchNewsDebounced(String text) {
     _searchDebounce?.cancel();
-    emit(HomeSearchInputChangedState());
-    if (text.characters.length <= 3) return;
+    final hasSearchText = text.isNotEmpty;
+    if (_hasSearchText != hasSearchText) {
+      _hasSearchText = hasSearchText;
+      emit(HomeSearchInputChangedState());
+    }
+
+    final query = text.trim();
+    if (query.characters.length <= 3) return;
 
     _searchDebounce = Timer(
       const Duration(seconds: 2),
-      () => searchNews(text: text),
+      () => searchNews(text: query),
     );
   }
 
   void clearSearch() {
     _searchDebounce?.cancel();
     searchController.clear();
+    _hasSearchText = false;
     emit(HomeSearchClearedState());
   }
 
@@ -42,7 +50,8 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(HomeLoadingState());
     final result = await DioHelper.getData(
       url: everythingEndpoint,
-      search: text.toLowerCase(),
+      search: text,
+      lang: _containsArabic(text) ? 'ar' : 'en',
       query: {
         'searchIn': 'title,content',
       },
@@ -63,6 +72,13 @@ class HomeCubit extends Cubit<HomeStates> {
       },
     );
   }
+
+  bool _containsArabic(String text) => text.runes.any(
+    (rune) =>
+        (rune >= 0x0600 && rune <= 0x06FF) ||
+        (rune >= 0x0750 && rune <= 0x077F) ||
+        (rune >= 0x08A0 && rune <= 0x08FF),
+  );
 
   void getTopHeadlines() async {
     searchModel = null;

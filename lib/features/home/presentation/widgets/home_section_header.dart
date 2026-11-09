@@ -12,6 +12,9 @@ class HomeSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
+      buildWhen: (_, current) =>
+          current is ThemeChangeThemeState ||
+          current is ThemeLanguageUpdatedState,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
