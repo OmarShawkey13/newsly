@@ -23,7 +23,7 @@ class HomeSearchBar extends StatelessWidget {
           final cubit = HomeCubit.get(context);
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SearchBar(
               controller: cubit.searchController,
               onChanged: cubit.searchNewsDebounced,

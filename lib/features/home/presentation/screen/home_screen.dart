@@ -3,6 +3,7 @@ import 'package:newsly/core/utils/constants/spacing.dart';
 import 'package:newsly/features/home/presentation/widgets/categories_list.dart';
 import 'package:newsly/features/home/presentation/widgets/home_header.dart';
 import 'package:newsly/features/home/presentation/widgets/home_search_bar.dart';
+import 'package:newsly/features/home/presentation/widgets/home_section_header.dart';
 import 'package:newsly/features/home/presentation/widgets/search_list_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,10 +16,13 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            verticalSpace8,
             const HomeSearchBar(),
             verticalSpace24,
             const CategoriesList(),
             verticalSpace24,
+            const HomeSectionHeader(),
+            verticalSpace12,
             const Expanded(child: SearchListWidget()),
           ],
         ),

@@ -26,7 +26,7 @@ class CategoriesList extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                horizontalSpace16,
+                horizontalSpace20,
                 ...categories.asMap().entries.map((entry) {
                   final index = entry.key;
                   final category = entry.value;
@@ -46,7 +46,7 @@ class CategoriesList extends StatelessWidget {
                     ],
                   );
                 }),
-                horizontalSpace16,
+                horizontalSpace20,
               ],
             ),
           );

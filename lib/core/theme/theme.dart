@@ -13,8 +13,7 @@ class ThemesManager {
 
   static ThemeData buildTheme(ColorScheme colorScheme) {
     final cardShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-      side: BorderSide(color: colorScheme.outlineVariant),
+      borderRadius: BorderRadius.circular(24),
     );
     final controlShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
@@ -36,7 +35,7 @@ class ThemesManager {
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: TextStylesManager.bold20.copyWith(
+        titleTextStyle: TextStylesManager.bold28.copyWith(
           color: colorScheme.onSurface,
         ),
         iconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
@@ -53,16 +52,13 @@ class ThemesManager {
       ),
       searchBarTheme: SearchBarThemeData(
         backgroundColor: WidgetStatePropertyAll(
-          colorScheme.surfaceContainerLow,
+          colorScheme.surfaceContainerHigh,
         ),
         elevation: const WidgetStatePropertyAll(0),
         shadowColor: WidgetStatePropertyAll(colorScheme.shadow),
         surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
-        side: WidgetStatePropertyAll(
-          BorderSide(color: colorScheme.outlineVariant),
-        ),
         shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
         padding: const WidgetStatePropertyAll(
           EdgeInsetsDirectional.only(start: 16, end: 8),
@@ -75,22 +71,22 @@ class ThemesManager {
             color: colorScheme.onSurfaceVariant,
           ),
         ),
-        constraints: const BoxConstraints(minHeight: 58),
+        constraints: const BoxConstraints(minHeight: 56),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerLow,
-        selectedColor: colorScheme.secondaryContainer,
-        secondarySelectedColor: colorScheme.secondaryContainer,
+        selectedColor: colorScheme.primaryContainer,
+        secondarySelectedColor: colorScheme.primaryContainer,
         showCheckmark: false,
-        labelStyle: TextStylesManager.regular14.copyWith(
+        labelStyle: TextStylesManager.medium14.copyWith(
           color: colorScheme.onSurfaceVariant,
         ),
-        secondaryLabelStyle: TextStylesManager.regular14.copyWith(
-          color: colorScheme.onSecondaryContainer,
+        secondaryLabelStyle: TextStylesManager.medium14.copyWith(
+          color: colorScheme.onPrimaryContainer,
         ),
-        side: BorderSide(color: colorScheme.outlineVariant),
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        side: BorderSide.none,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       ),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(

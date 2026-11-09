@@ -18,15 +18,15 @@ class ArticleCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(14),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(18),
               child: Container(
-                width: 112,
-                height: 112,
+                width: 104,
+                height: 104,
                 color: colorScheme.surfaceContainerHighest,
                 child: imageUrl.isEmpty
                     ? Icon(
@@ -59,7 +59,7 @@ class ArticleCard extends StatelessWidget {
                         : appTranslation().get('untitled_article'),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStylesManager.bold16.copyWith(
+                    style: TextStylesManager.semiBold16.copyWith(
                       color: colorScheme.onSurface,
                     ),
                   ),
@@ -70,7 +70,7 @@ class ArticleCard extends StatelessWidget {
                         : appTranslation().get('no_description'),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStylesManager.regular14.copyWith(
+                    style: TextStylesManager.regular13.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
                   ),

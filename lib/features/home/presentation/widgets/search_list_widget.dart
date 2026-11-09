@@ -85,11 +85,11 @@ class SearchListWidget extends StatelessWidget {
               ),
             ),
             successBuilder: (context) => ListView.separated(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
               itemBuilder: (context, index) => ArticleCard(
                 article: articles[index],
               ),
-              separatorBuilder: (context, index) => verticalSpace12,
+              separatorBuilder: (context, index) => verticalSpace16,
               itemCount: articles.length,
             ),
           );

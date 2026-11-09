@@ -20,22 +20,22 @@ class LoadingSearchListWidget extends StatelessWidget {
       builder: (context, _) => Skeletonizer(
         enabled: true,
         child: ListView.separated(
-          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+          padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
           itemBuilder: (context, index) => Card(
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(14),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Skeleton.leaf(
                     child: Container(
-                      width: 112,
-                      height: 112,
+                      width: 104,
+                      height: 104,
                       decoration: BoxDecoration(
                         color: ColorsManager
                             .currentColorScheme
                             .surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(18),
                       ),
                     ),
                   ),
@@ -48,14 +48,14 @@ class LoadingSearchListWidget extends StatelessWidget {
                           appTranslation().get('untitled_article'),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStylesManager.bold16,
+                          style: TextStylesManager.semiBold16,
                         ),
                         verticalSpace8,
                         Text(
                           appTranslation().get('no_description'),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStylesManager.regular14.copyWith(
+                          style: TextStylesManager.regular13.copyWith(
                             color: ColorsManager.currentTextColor.withValues(
                               alpha: 0.5,
                             ),
@@ -68,7 +68,7 @@ class LoadingSearchListWidget extends StatelessWidget {
               ),
             ),
           ),
-          separatorBuilder: (context, index) => verticalSpace12,
+          separatorBuilder: (context, index) => verticalSpace16,
           itemCount: 8,
         ),
       ),

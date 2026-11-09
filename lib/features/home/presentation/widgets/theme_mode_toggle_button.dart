@@ -73,7 +73,7 @@ class _ThemeModeToggleButtonState extends State<ThemeModeToggleButton> {
         onPointerDown: _handlePointerDown,
         onPointerUp: _handlePointerUp,
         onPointerCancel: _handlePointerCancel,
-        child: IconButton(
+        child: IconButton.filledTonal(
           key: _buttonKey,
           tooltip: appTranslation().get('toggle_theme'),
           onPressed: _toggleTheme,

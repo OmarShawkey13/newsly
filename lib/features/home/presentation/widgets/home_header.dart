@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/theme/colors.dart';
 import 'package:newsly/core/theme/text_styles.dart';
 import 'package:newsly/core/utils/constants/constants.dart';
+import 'package:newsly/core/utils/constants/spacing.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_state.dart';
 import 'package:newsly/features/home/presentation/widgets/theme_mode_toggle_button.dart';
@@ -10,7 +11,7 @@ import 'package:newsly/features/home/presentation/widgets/theme_mode_toggle_butt
 class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
   const HomeHeader({super.key});
 
-  static const double toolbarHeight = 84;
+  static const double toolbarHeight = 96;
 
   @override
   Size get preferredSize => const Size.fromHeight(toolbarHeight);
@@ -31,25 +32,28 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Text(
               appTranslation().get('home_title'),
-              style: TextStylesManager.bold22.copyWith(
+              style: TextStylesManager.bold28.copyWith(
                 color: ColorsManager.currentTextColor,
               ),
             ),
+            verticalSpace4,
             Text(
               appTranslation().get('home_subtitle'),
-              style: TextStylesManager.regular14.copyWith(
+              style: TextStylesManager.medium14.copyWith(
                 color: ColorsManager.currentSubtitleColor,
               ),
             ),
           ],
         ),
         actions: [
-          IconButton(
+          IconButton.filledTonal(
             tooltip: appTranslation().get('toggle_language'),
             onPressed: () => ThemeCubit.get(context).toggleLanguage(),
             icon: const Icon(Icons.translate_rounded),
           ),
+          horizontalSpace4,
           const ThemeModeToggleButton(),
+          horizontalSpace12,
         ],
       ),
     );

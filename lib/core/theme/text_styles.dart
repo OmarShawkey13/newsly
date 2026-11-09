@@ -1,6 +1,37 @@
 import 'package:flutter/material.dart';
 
 class TextStylesManager {
+  static TextStyle get regular13 => const TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 1.45,
+  );
+
+  static TextStyle get medium14 => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.35,
+  );
+
+  static TextStyle get semiBold16 => const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1.32,
+  );
+
+  static TextStyle get semiBold18 => const TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1.3,
+  );
+
+  static TextStyle get bold28 => const TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.15,
+    letterSpacing: -0.5,
+  );
+
   /// Regular text styles
   static TextStyle get regular8 => const TextStyle(
     fontSize: 8.0,
