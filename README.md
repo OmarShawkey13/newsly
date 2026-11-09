@@ -95,25 +95,18 @@ Make sure to:
 flutter test
 ```
 
-> Unit, Widget, and Cubit tests following best practices.
+A new Flutter project.
 
----
+## Getting Started
 
-## 🏷 Package Name
+This project is a starting point for a Flutter application.
 
-```
-dev.omarshawkey.newsly
-```
+A few resources to get you started if this is your first Flutter project:
 
----
+- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
+- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-## 📄 License
-
-MIT License – feel free to use and modify.
-
----
-
-## 👨‍💻 Developed by
-
-**Omar Shawkey**  
-[GitHub](https://github.com/omarshawkey13) – [LinkedIn](https://www.linkedin.com/in/omar-shawkey-07044b300/)
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

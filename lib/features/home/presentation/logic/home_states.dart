@@ -2,8 +2,6 @@ abstract class HomeStates {}
 
 class HomeInitialState extends HomeStates {}
 
-class HomeChangeThemeAppState extends HomeStates {}
-
 class HomeLoadingState extends HomeStates {}
 
 class HomeErrorState extends HomeStates {
@@ -13,5 +11,9 @@ class HomeErrorState extends HomeStates {
 }
 
 class HomeSuccessState extends HomeStates {}
+
+class HomeSearchInputChangedState extends HomeStates {}
+
+class HomeSearchClearedState extends HomeStates {}
 
 class ChangeSelectedIndexState extends HomeStates {}

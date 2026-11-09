@@ -1,4 +1,4 @@
-import 'package:newsly/features/home/data/models/article_model.dart';
+import 'package:newsly/core/models/article_model.dart';
 
 class EverythingModel {
   final String? status;
