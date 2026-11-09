@@ -26,7 +26,7 @@ class HomeSearchBar extends StatelessWidget {
             child: SearchBar(
               controller: cubit.searchController,
               textStyle: WidgetStatePropertyAll(
-                TextStylesManager.regular18(context).copyWith(
+                TextStylesManager.regular18.copyWith(
                   color: ColorsManager.currentTextColor,
                 ),
               ),
@@ -39,7 +39,7 @@ class HomeSearchBar extends StatelessWidget {
               ),
               elevation: const WidgetStatePropertyAll(0),
               hintStyle: WidgetStatePropertyAll(
-                TextStylesManager.regular18(context).copyWith(
+                TextStylesManager.regular18.copyWith(
                   color: ColorsManager.currentSearchHintColor,
                 ),
               ),

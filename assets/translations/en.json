@@ -1,3 +1,16 @@
 {
-
+  "error_request_timeout": "The news request timed out. Check your connection and try again.",
+  "error_no_response": "Couldn't reach the news service. Check your internet connection.",
+  "error_something_went_wrong": "We couldn't load the news. Please try again.",
+  "error_server_unavailable": "The news service is temporarily unavailable.",
+  "error_api_key_missing": "The news service API key is missing.",
+  "error_api_key_invalid": "The news service rejected its API key.",
+  "error_api_key_disabled": "The news service API key is disabled.",
+  "error_api_key_exhausted": "The news service API key has reached its request limit.",
+  "error_invalid_request": "The news service rejected the request parameters.",
+  "error_parameters_missing": "The news request is missing required parameters.",
+  "error_rate_limited": "The news service rate limit was reached. Try again later.",
+  "error_sources_too_many": "Too many news sources were requested.",
+  "error_source_not_found": "The selected news source wasn't found.",
+  "empty_articles": "No articles found for this category."
 }

@@ -1,112 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/core/utils/constants/constants.dart';
 
 class TextStylesManager {
   /// Regular text styles
-  static TextStyle regular8(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 8.0),
+  static TextStyle get regular8 => const TextStyle(
+    fontSize: 8.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular10(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 10.0),
+  static TextStyle get regular10 => const TextStyle(
+    fontSize: 10.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular12(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 12.0),
+  static TextStyle get regular12 => const TextStyle(
+    fontSize: 12.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular14(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 14.0),
+  static TextStyle get regular14 => const TextStyle(
+    fontSize: 14.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular16(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 16.0),
+  static TextStyle get regular16 => const TextStyle(
+    fontSize: 16.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular18(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 18.0),
+  static TextStyle get regular18 => const TextStyle(
+    fontSize: 18.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular20(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 20.0),
+  static TextStyle get regular20 => const TextStyle(
+    fontSize: 20.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular22(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 22.0),
+  static TextStyle get regular22 => const TextStyle(
+    fontSize: 22.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular24(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 24.0),
+  static TextStyle get regular24 => const TextStyle(
+    fontSize: 24.0,
     fontWeight: FontWeight.w400,
   );
 
-  static TextStyle regular40(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 40.0),
+  static TextStyle get regular40 => const TextStyle(
+    fontSize: 40.0,
     fontWeight: FontWeight.w400,
   );
 
   /// Bold text styles
 
-  static TextStyle bold10(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 10.0),
+  static TextStyle get bold10 => const TextStyle(
+    fontSize: 10.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold12(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 12.0),
+  static TextStyle get bold12 => const TextStyle(
+    fontSize: 12.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold14(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 14.0),
+  static TextStyle get bold14 => const TextStyle(
+    fontSize: 14.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold16(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 16.0),
+  static TextStyle get bold16 => const TextStyle(
+    fontSize: 16.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold18(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 18.0),
+  static TextStyle get bold18 => const TextStyle(
+    fontSize: 18.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold20(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 20.0),
+  static TextStyle get bold20 => const TextStyle(
+    fontSize: 20.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold22(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 22.0),
+  static TextStyle get bold22 => const TextStyle(
+    fontSize: 22.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold24(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 24.0),
+  static TextStyle get bold24 => const TextStyle(
+    fontSize: 24.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold26(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 26.0),
+  static TextStyle get bold26 => const TextStyle(
+    fontSize: 26.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold40(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 40.0),
+  static TextStyle get bold40 => const TextStyle(
+    fontSize: 40.0,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle bold48(BuildContext context) => TextStyle(
-    fontSize: getResponsiveSize(context: context, size: 48.0),
+  static TextStyle get bold48 => const TextStyle(
+    fontSize: 48.0,
     fontWeight: FontWeight.w700,
   );
 }

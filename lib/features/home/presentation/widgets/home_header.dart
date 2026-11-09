@@ -30,13 +30,13 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Text(
               'Hello, Omar 👋',
-              style: TextStylesManager.bold20(context).copyWith(
+              style: TextStylesManager.bold20.copyWith(
                 color: ColorsManager.currentTextColor,
               ),
             ),
             Text(
               'Search Your Daily News',
-              style: TextStylesManager.regular16(context).copyWith(
+              style: TextStylesManager.regular16.copyWith(
                 color: ColorsManager.currentSubtitleColor,
               ),
             ),

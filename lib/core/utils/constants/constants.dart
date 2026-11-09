@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:newsly/core/models/translations.dart';
+import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
 
-double getResponsiveSize({
-  required BuildContext context,
-  required double size,
-}) {
-  final width = MediaQuery.of(context).size.width;
-  return (size * width) / 411.0;
-}
+TranslationModel appTranslation() =>
+    ThemeCubit.currentTranslation ?? TranslationModel.fromJson({});

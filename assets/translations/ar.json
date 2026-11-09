@@ -1,3 +1,16 @@
 {
-
+  "error_request_timeout": "انتهت مهلة طلب الأخبار. تحقق من اتصالك وحاول مرة أخرى.",
+  "error_no_response": "تعذر الوصول إلى خدمة الأخبار. تحقق من اتصال الإنترنت.",
+  "error_something_went_wrong": "تعذر تحميل الأخبار. حاول مرة أخرى.",
+  "error_server_unavailable": "خدمة الأخبار غير متاحة مؤقتًا.",
+  "error_api_key_missing": "مفتاح خدمة الأخبار غير مرفق بالطلب.",
+  "error_api_key_invalid": "رفضت خدمة الأخبار مفتاح الوصول.",
+  "error_api_key_disabled": "تم تعطيل مفتاح خدمة الأخبار.",
+  "error_api_key_exhausted": "وصل مفتاح خدمة الأخبار إلى حد الطلبات المتاح.",
+  "error_invalid_request": "رفضت خدمة الأخبار معلمات الطلب.",
+  "error_parameters_missing": "طلب الأخبار يفتقد إلى معلمات مطلوبة.",
+  "error_rate_limited": "تم تجاوز حد الطلبات. حاول مرة أخرى لاحقًا.",
+  "error_sources_too_many": "عدد مصادر الأخبار المطلوبة أكبر من المسموح.",
+  "error_source_not_found": "مصدر الأخبار المحدد غير موجود.",
+  "empty_articles": "لم يتم العثور على أخبار في هذا التصنيف."
 }

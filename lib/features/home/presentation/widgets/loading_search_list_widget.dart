@@ -40,14 +40,14 @@ class LoadingSearchListWidget extends StatelessWidget {
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStylesManager.regular16(context),
+                      style: TextStylesManager.regular16,
                     ),
                     verticalSpace8,
                     Text(
                       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStylesManager.regular14(context).copyWith(
+                      style: TextStylesManager.regular14.copyWith(
                         color: ColorsManager.currentTextColor.withValues(
                           alpha: 0.5,
                         ),

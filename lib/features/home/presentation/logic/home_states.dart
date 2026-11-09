@@ -8,6 +8,9 @@ class HomeErrorState extends HomeStates {
   final String error;
 
   HomeErrorState(this.error);
+
+  @override
+  String toString() => 'HomeErrorState(error: $error)';
 }
 
 class HomeSuccessState extends HomeStates {}

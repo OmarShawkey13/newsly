@@ -9,13 +9,13 @@ class ThemesManager {
     scaffoldBackgroundColor: ColorsManager.scaffoldBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: ColorsManager.primaryColor,
-      titleTextStyle: TextStylesManager.bold20(context).copyWith(
+      titleTextStyle: TextStylesManager.bold20.copyWith(
         color: ColorsManager.textColorDark,
       ),
       iconTheme: const IconThemeData(color: ColorsManager.textColorDark),
     ),
     textTheme: TextTheme(
-      bodyLarge: TextStylesManager.regular14(context).copyWith(
+      bodyLarge: TextStylesManager.regular14.copyWith(
         color: ColorsManager.textColor,
       ),
     ),
@@ -23,17 +23,17 @@ class ThemesManager {
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorsManager.cardColor,
         foregroundColor: ColorsManager.textColor,
-        textStyle: TextStylesManager.bold14(context),
+        textStyle: TextStylesManager.bold14,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: ColorsManager.whiteColor,
-      hintStyle: TextStylesManager.regular12(context).copyWith(
+      hintStyle: TextStylesManager.regular12.copyWith(
         color: ColorsManager.subtitleColor,
       ),
-      labelStyle: TextStylesManager.regular14(context).copyWith(
+      labelStyle: TextStylesManager.regular14.copyWith(
         color: ColorsManager.textColor,
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
@@ -57,13 +57,13 @@ class ThemesManager {
     scaffoldBackgroundColor: ColorsManager.scaffoldDarkBackgroundColor,
     appBarTheme: AppBarTheme(
       backgroundColor: ColorsManager.primaryDarkColor,
-      titleTextStyle: TextStylesManager.bold20(context).copyWith(
+      titleTextStyle: TextStylesManager.bold20.copyWith(
         color: ColorsManager.textColorDark,
       ),
       iconTheme: const IconThemeData(color: ColorsManager.textColorDark),
     ),
     textTheme: TextTheme(
-      bodyLarge: TextStylesManager.regular14(context).copyWith(
+      bodyLarge: TextStylesManager.regular14.copyWith(
         color: ColorsManager.textColorDark,
       ),
     ),
@@ -71,17 +71,17 @@ class ThemesManager {
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorsManager.cardColorDark,
         foregroundColor: ColorsManager.textColorDark,
-        textStyle: TextStylesManager.bold14(context),
+        textStyle: TextStylesManager.bold14,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: ColorsManager.primaryDarkColor.withValues(alpha: 0.1),
-      hintStyle: TextStylesManager.regular12(context).copyWith(
+      hintStyle: TextStylesManager.regular12.copyWith(
         color: ColorsManager.subtitleColorDark,
       ),
-      labelStyle: TextStylesManager.regular14(context).copyWith(
+      labelStyle: TextStylesManager.regular14.copyWith(
         color: ColorsManager.textColorDark,
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),

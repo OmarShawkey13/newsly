@@ -36,7 +36,7 @@ class CategoriesList extends StatelessWidget {
                       ChoiceChip(
                         label: Text(
                           category,
-                          style: TextStylesManager.regular16(context).copyWith(
+                          style: TextStylesManager.regular16.copyWith(
                             color: isSelected
                                 ? ColorsManager.chipSelectedText
                                 : ColorsManager.currentChipTextColor,
