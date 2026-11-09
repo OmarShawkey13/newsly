@@ -5,6 +5,7 @@ import 'package:newsly/core/theme/text_styles.dart';
 import 'package:newsly/core/utils/constants/constants.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_state.dart';
+import 'package:newsly/features/home/presentation/widgets/theme_mode_toggle_button.dart';
 
 class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
   const HomeHeader({super.key});
@@ -48,15 +49,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () => ThemeCubit.get(context).toggleLanguage(),
             icon: const Icon(Icons.translate_rounded),
           ),
-          IconButton(
-            tooltip: appTranslation().get('toggle_theme'),
-            onPressed: () => ThemeCubit.get(context).changeTheme(),
-            icon: Icon(
-              ColorsManager.isDark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
-            ),
-          ),
+          const ThemeModeToggleButton(),
           const Padding(
             padding: EdgeInsetsDirectional.only(start: 4, end: 16),
             child: Icon(Icons.newspaper_rounded, size: 26),

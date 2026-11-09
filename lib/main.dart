@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newsly/core/di/injections.dart';
 import 'package:newsly/core/network/local/cache_helper.dart';
 import 'package:newsly/core/theme/theme.dart';
+import 'package:newsly/core/theme/theme_reveal_controller.dart';
+import 'package:newsly/core/theme/theme_reveal_overlay.dart';
 import 'package:newsly/core/utils/constants/routes.dart';
 import 'package:newsly/core/utils/constants/my_bloc_observer.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
@@ -57,12 +59,16 @@ class MyApp extends StatelessWidget {
             theme: ThemesManager.lightTheme,
             darkTheme: ThemesManager.darkTheme,
             themeMode: ThemeCubit.get(context).isDarkMode ? .dark : .light,
+            themeAnimationDuration: Duration.zero,
             builder: (context, child) {
-              return Directionality(
-                textDirection: ThemeCubit.get(context).isArabicLang
-                    ? .rtl
-                    : .ltr,
-                child: child!,
+              return ThemeRevealOverlay(
+                controller: sl<ThemeRevealController>(),
+                child: Directionality(
+                  textDirection: ThemeCubit.get(context).isArabicLang
+                      ? .rtl
+                      : .ltr,
+                  child: child!,
+                ),
               );
             },
           );
