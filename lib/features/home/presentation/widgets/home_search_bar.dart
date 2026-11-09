@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/core/theme/colors.dart';
-import 'package:newsly/core/theme/text_styles.dart';
+import 'package:newsly/core/utils/constants/constants.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_state.dart';
 import 'package:newsly/features/home/presentation/logic/home_cubit.dart';
@@ -13,7 +12,9 @@ class HomeSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
-      buildWhen: (_, current) => current is ThemeChangeThemeState,
+      buildWhen: (_, current) =>
+          current is ThemeChangeThemeState ||
+          current is ThemeLanguageUpdatedState,
       builder: (context, _) => BlocBuilder<HomeCubit, HomeStates>(
         buildWhen: (_, current) =>
             current is HomeSearchInputChangedState ||
@@ -25,48 +26,17 @@ class HomeSearchBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SearchBar(
               controller: cubit.searchController,
-              textStyle: WidgetStatePropertyAll(
-                TextStylesManager.regular18.copyWith(
-                  color: ColorsManager.currentTextColor,
-                ),
-              ),
               onChanged: cubit.searchNewsDebounced,
-              overlayColor: const WidgetStatePropertyAll(Colors.transparent),
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
-              backgroundColor: WidgetStatePropertyAll(
-                ColorsManager.currentSearchBackgroundColor,
-              ),
-              elevation: const WidgetStatePropertyAll(0),
-              hintStyle: WidgetStatePropertyAll(
-                TextStylesManager.regular18.copyWith(
-                  color: ColorsManager.currentSearchHintColor,
-                ),
-              ),
-              hintText: 'Search articles...',
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                  side: BorderSide(
-                    color: ColorsManager.currentSearchBorderColor,
-                  ),
-                ),
-              ),
-              padding: const WidgetStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 12),
-              ),
-              leading: Icon(
-                Icons.search,
-                color: ColorsManager.currentSearchIconColor,
-              ),
+              hintText: appTranslation().get('search_articles'),
+              leading: const Icon(Icons.search_rounded),
               trailing: cubit.searchController.text.isEmpty
                   ? null
                   : [
                       IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: ColorsManager.currentSearchIconColor,
-                        ),
+                        tooltip: appTranslation().get('clear_search'),
+                        icon: const Icon(Icons.close_rounded),
                         onPressed: cubit.clearSearch,
                       ),
                     ],

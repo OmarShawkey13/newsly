@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newsly/core/theme/colors.dart';
-import 'package:newsly/core/theme/text_styles.dart';
+import 'package:newsly/core/utils/constants/constants.dart';
 import 'package:newsly/core/utils/constants/spacing.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_state.dart';
@@ -15,7 +14,9 @@ class CategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeState>(
-      buildWhen: (_, current) => current is ThemeChangeThemeState,
+      buildWhen: (_, current) =>
+          current is ThemeChangeThemeState ||
+          current is ThemeLanguageUpdatedState,
       builder: (context, _) => BlocBuilder<HomeCubit, HomeStates>(
         buildWhen: (_, current) => current is ChangeSelectedIndexState,
         builder: (context, _) {
@@ -29,33 +30,17 @@ class CategoriesList extends StatelessWidget {
                 ...categories.asMap().entries.map((entry) {
                   final index = entry.key;
                   final category = entry.value;
-                  final isSelected = cubit.selectedIndex == index;
 
                   return Row(
                     children: [
                       ChoiceChip(
                         label: Text(
-                          category,
-                          style: TextStylesManager.regular16.copyWith(
-                            color: isSelected
-                                ? ColorsManager.chipSelectedText
-                                : ColorsManager.currentChipTextColor,
+                          appTranslation().get(
+                            'category_${category.toLowerCase()}',
                           ),
                         ),
-                        showCheckmark: false,
-                        selected: isSelected,
+                        selected: cubit.selectedIndex == index,
                         onSelected: (_) => cubit.selectedIndex = index,
-                        selectedColor:
-                            ColorsManager.currentChipSelectedBackgroundColor,
-                        backgroundColor:
-                            ColorsManager.currentChipBackgroundColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
                       ),
                       if (index != categories.length - 1) horizontalSpace8,
                     ],

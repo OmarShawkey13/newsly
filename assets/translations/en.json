@@ -12,5 +12,19 @@
   "error_rate_limited": "The news service rate limit was reached. Try again later.",
   "error_sources_too_many": "Too many news sources were requested.",
   "error_source_not_found": "The selected news source wasn't found.",
-  "empty_articles": "No articles found for this category."
+  "empty_articles": "No articles found for this category.",
+  "home_title": "Newsly",
+  "home_subtitle": "Your daily briefing",
+  "search_articles": "Search articles",
+  "clear_search": "Clear search",
+  "toggle_language": "Change language",
+  "toggle_theme": "Change appearance",
+  "category_business": "Business",
+  "category_entertainment": "Entertainment",
+  "category_health": "Health",
+  "category_science": "Science",
+  "category_sports": "Sports",
+  "category_technology": "Technology",
+  "untitled_article": "Untitled article",
+  "no_description": "No description available."
 }

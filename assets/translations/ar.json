@@ -12,5 +12,19 @@
   "error_rate_limited": "تم تجاوز حد الطلبات. حاول مرة أخرى لاحقًا.",
   "error_sources_too_many": "عدد مصادر الأخبار المطلوبة أكبر من المسموح.",
   "error_source_not_found": "مصدر الأخبار المحدد غير موجود.",
-  "empty_articles": "لم يتم العثور على أخبار في هذا التصنيف."
+  "empty_articles": "لم يتم العثور على أخبار في هذا التصنيف.",
+  "home_title": "نيوزلي",
+  "home_subtitle": "ملخص أخبارك اليومي",
+  "search_articles": "ابحث في الأخبار",
+  "clear_search": "مسح البحث",
+  "toggle_language": "تغيير اللغة",
+  "toggle_theme": "تغيير المظهر",
+  "category_business": "الأعمال",
+  "category_entertainment": "الترفيه",
+  "category_health": "الصحة",
+  "category_science": "العلوم",
+  "category_sports": "الرياضة",
+  "category_technology": "التقنية",
+  "untitled_article": "خبر بدون عنوان",
+  "no_description": "لا يتوفر وصف لهذا الخبر."
 }

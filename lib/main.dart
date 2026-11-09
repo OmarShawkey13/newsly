@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
             routes: Routes.routes,
             initialRoute: Routes.home,
             debugShowCheckedModeBanner: false,
-            theme: ThemesManager.lightTheme(context),
-            darkTheme: ThemesManager.darkTheme(context),
+            theme: ThemesManager.lightTheme,
+            darkTheme: ThemesManager.darkTheme,
             themeMode: ThemeCubit.get(context).isDarkMode ? .dark : .light,
             builder: (context, child) {
               return Directionality(
