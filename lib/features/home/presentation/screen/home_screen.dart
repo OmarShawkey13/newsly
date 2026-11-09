@@ -18,9 +18,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             verticalSpace8,
             const HomeSearchBar(),
-            verticalSpace24,
             const CategoriesList(),
-            verticalSpace24,
             const HomeSectionHeader(),
             verticalSpace12,
             const Expanded(child: SearchListWidget()),

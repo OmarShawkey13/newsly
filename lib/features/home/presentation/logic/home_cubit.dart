@@ -13,111 +13,108 @@ class HomeCubit extends Cubit<HomeStates> {
 
   static HomeCubit get(BuildContext context) => BlocProvider.of(context);
 
-  final TextEditingController searchController = TextEditingController();
+  static const Duration _debounceDuration = Duration(seconds: 2);
+  static const int _minSearchLength = 3;
+  static final RegExp _arabicRegex = RegExp(
+    r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]',
+  );
+
+  final TextEditingController searchController = .new();
   Timer? _searchDebounce;
   bool _hasSearchText = false;
+  int _selectedIndex = 0;
+  int _requestGeneration = 0;
 
   EverythingModel? searchModel;
 
+  int get selectedIndex => _selectedIndex;
+  bool get hasSearchText => _hasSearchText;
+
+  set selectedIndex(int index) {
+    if (_selectedIndex == index) return;
+    _selectedIndex = index;
+    emit(ChangeSelectedIndexState());
+    getTopHeadlines();
+  }
+
   void searchNewsDebounced(String text) {
     _searchDebounce?.cancel();
+
     final hasSearchText = text.isNotEmpty;
+    final wasSearchText = _hasSearchText;
     if (_hasSearchText != hasSearchText) {
       _hasSearchText = hasSearchText;
       emit(HomeSearchInputChangedState());
     }
 
+    if (wasSearchText && !hasSearchText) {
+      unawaited(getTopHeadlines());
+      return;
+    }
+
     final query = text.trim();
-    if (query.characters.length <= 3) return;
+    if (query.characters.length <= _minSearchLength) return;
 
     _searchDebounce = Timer(
-      const Duration(seconds: 2),
+      _debounceDuration,
       () => searchNews(text: query),
     );
   }
 
   void clearSearch() {
     _searchDebounce?.cancel();
+    _requestGeneration++;
     searchController.clear();
     _hasSearchText = false;
     emit(HomeSearchClearedState());
+    unawaited(getTopHeadlines());
   }
 
-  void searchNews({
-    required String text,
-  }) async {
-    searchModel = null;
-    emit(HomeLoadingState());
-    final result = await DioHelper.getData(
+  Future<void> searchNews({required String text}) async {
+    await _fetchNews(
       url: everythingEndpoint,
       search: text,
-      lang: _containsArabic(text) ? 'ar' : 'en',
-      query: {
-        'searchIn': 'title,content',
-      },
-    );
-    result.fold(
-      (l) {
-        emit(
-          HomeErrorState(
-            l.message,
-          ),
-        );
-      },
-      (r) {
-        searchModel = EverythingModel.fromMap(r.data);
-        emit(
-          HomeSuccessState(),
-        );
-      },
+      lang: _arabicRegex.hasMatch(text) ? 'ar' : 'en',
+      query: {'searchIn': 'title,content'},
     );
   }
 
-  bool _containsArabic(String text) => text.runes.any(
-    (rune) =>
-        (rune >= 0x0600 && rune <= 0x06FF) ||
-        (rune >= 0x0750 && rune <= 0x077F) ||
-        (rune >= 0x08A0 && rune <= 0x08FF),
-  );
-
-  void getTopHeadlines() async {
-    searchModel = null;
-
-    emit(HomeLoadingState());
-
-    final result = await DioHelper.getData(
+  Future<void> getTopHeadlines() async {
+    await _fetchNews(
       url: topHeadlinesEndpoint,
       query: {
         'country': 'us',
-        'category': categories[selectedIndex].toLowerCase(),
-      },
-    );
-
-    result.fold(
-      (l) {
-        emit(
-          HomeErrorState(
-            l.message,
-          ),
-        );
-      },
-      (r) {
-        searchModel = EverythingModel.fromMap(r.data);
-        emit(
-          HomeSuccessState(),
-        );
+        'category': categories[_selectedIndex].toLowerCase(),
       },
     );
   }
 
-  int _selectedIndex = 0;
+  Future<void> _fetchNews({
+    required String url,
+    String? search,
+    String? lang,
+    Map<String, dynamic>? query,
+  }) async {
+    final requestGeneration = ++_requestGeneration;
+    searchModel = null;
+    emit(HomeLoadingState());
 
-  int get selectedIndex => _selectedIndex;
+    final result = await DioHelper.getData(
+      url: url,
+      search: search,
+      lang: lang,
+      query: query,
+    );
 
-  set selectedIndex(int index) {
-    _selectedIndex = index;
-    getTopHeadlines();
-    emit(ChangeSelectedIndexState());
+    if (isClosed || requestGeneration != _requestGeneration) return;
+
+    result.fold(
+      (failure) => emit(HomeErrorState(failure.message)),
+      (response) {
+        searchModel = EverythingModel.fromMap(response.data);
+        emit(HomeSuccessState());
+      },
+    );
   }
 
   @override

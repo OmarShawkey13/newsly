@@ -11,36 +11,47 @@ class HomeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      buildWhen: (_, current) =>
-          current is ThemeChangeThemeState ||
-          current is ThemeLanguageUpdatedState,
-      builder: (context, _) => BlocBuilder<HomeCubit, HomeStates>(
-        buildWhen: (_, current) =>
-            current is HomeSearchInputChangedState ||
-            current is HomeSearchClearedState,
-        builder: (context, _) {
-          final cubit = HomeCubit.get(context);
+    final cubit = HomeCubit.get(context);
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SearchBar(
-              controller: cubit.searchController,
-              onChanged: cubit.searchNewsDebounced,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.search,
-              hintText: appTranslation().get('search_articles'),
-              leading: const Icon(Icons.search_rounded),
-              trailing: cubit.searchController.text.isEmpty
-                  ? null
-                  : [
-                      IconButton(
-                        tooltip: appTranslation().get('clear_search'),
-                        icon: const Icon(Icons.close_rounded),
-                        onPressed: cubit.clearSearch,
-                      ),
-                    ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        buildWhen: (_, current) =>
+        current is ThemeChangeThemeState ||
+            current is ThemeLanguageUpdatedState,
+        builder: (context, _) {
+          final translation = appTranslation();
+
+          return BlocBuilder<HomeCubit, HomeStates>(
+            buildWhen: (_, current) =>
+            current is HomeSearchInputChangedState ||
+                current is HomeSearchClearedState,
+            builder: (context, _) {
+              final hasText = cubit.searchController.text.isNotEmpty;
+
+              return SearchBar(
+                controller: cubit.searchController,
+                onChanged: cubit.searchNewsDebounced,
+                onSubmitted: (value) {
+                  final query = value.trim();
+                  if (query.isNotEmpty) {
+                    cubit.searchNews(text: query);
+                  }
+                },
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.search,
+                hintText: translation.get('search_articles'),
+                leading: const Icon(Icons.search_rounded),
+                trailing: [
+                  if (hasText)
+                    IconButton(
+                      tooltip: translation.get('clear_search'),
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: cubit.clearSearch,
+                    ),
+                ],
+              );
+            },
           );
         },
       ),

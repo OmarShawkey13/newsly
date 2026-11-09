@@ -18,37 +18,52 @@ class CategoriesList extends StatelessWidget {
           current is ThemeChangeThemeState ||
           current is ThemeLanguageUpdatedState,
       builder: (context, _) => BlocBuilder<HomeCubit, HomeStates>(
-        buildWhen: (_, current) => current is ChangeSelectedIndexState,
+        buildWhen: (_, current) =>
+            current is ChangeSelectedIndexState ||
+            current is HomeSearchInputChangedState ||
+            current is HomeSearchClearedState,
         builder: (context, _) {
           final cubit = HomeCubit.get(context);
 
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                horizontalSpace20,
-                ...categories.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final category = entry.value;
+          return AnimatedSize(
+            alignment: Alignment.topCenter,
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeInOutCubic,
+            child: cubit.hasSearchText
+                ? const SizedBox(height: 24)
+                : Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          horizontalSpace20,
+                          ...categories.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final category = entry.value;
 
-                  return Row(
-                    children: [
-                      ChoiceChip(
-                        label: Text(
-                          appTranslation().get(
-                            'category_${category.toLowerCase()}',
-                          ),
-                        ),
-                        selected: cubit.selectedIndex == index,
-                        onSelected: (_) => cubit.selectedIndex = index,
+                            return Row(
+                              children: [
+                                ChoiceChip(
+                                  label: Text(
+                                    appTranslation().get(
+                                      'category_${category.toLowerCase()}',
+                                    ),
+                                  ),
+                                  selected: cubit.selectedIndex == index,
+                                  onSelected: (_) =>
+                                      cubit.selectedIndex = index,
+                                ),
+                                if (index != categories.length - 1)
+                                  horizontalSpace8,
+                              ],
+                            );
+                          }),
+                          horizontalSpace20,
+                        ],
                       ),
-                      if (index != categories.length - 1) horizontalSpace8,
-                    ],
-                  );
-                }),
-                horizontalSpace20,
-              ],
-            ),
+                    ),
+                  ),
           );
         },
       ),
