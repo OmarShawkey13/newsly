@@ -21,17 +21,21 @@ class ThemeCubit extends Cubit<ThemeState> {
     required bool isArabic,
     required String translations,
   }) async {
-    changeTheme(fromShared: isDark);
+    await changeTheme(fromShared: isDark);
     await changeLanguage(isArabic: isArabic, translations: translations);
   }
 
   bool get isDarkMode => _isDarkMode;
 
-  void changeTheme({bool? fromShared}) {
+  Future<void> changeTheme({bool? fromShared}) async {
     _isDarkMode = fromShared ?? !_isDarkMode;
     currentIsDarkMode = _isDarkMode;
-    CacheHelper.saveData(key: 'isDark', value: _isDarkMode);
     emit(ThemeChangeThemeState());
+    try {
+      await CacheHelper.saveData(key: 'isDark', value: _isDarkMode);
+    } on Object catch (error, stackTrace) {
+      addError(error, stackTrace);
+    }
   }
 
   bool _isArabicLang = false;

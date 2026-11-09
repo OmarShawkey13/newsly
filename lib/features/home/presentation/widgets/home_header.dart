@@ -50,10 +50,6 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
             icon: const Icon(Icons.translate_rounded),
           ),
           const ThemeModeToggleButton(),
-          const Padding(
-            padding: EdgeInsetsDirectional.only(start: 4, end: 16),
-            child: Icon(Icons.newspaper_rounded, size: 26),
-          ),
         ],
       ),
     );

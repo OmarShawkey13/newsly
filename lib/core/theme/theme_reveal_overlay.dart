@@ -1,20 +1,28 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart' show TickerCanceled;
+import 'package:flutter/scheduler.dart' show SchedulerBinding, TickerCanceled;
 import 'package:newsly/core/theme/theme_reveal_controller.dart';
 import 'package:newsly/core/utils/cubit/theme/theme_cubit.dart';
+
+typedef ThemeSnapshotCapture = Future<ui.Image> Function(
+  RenderRepaintBoundary boundary,
+  double pixelRatio,
+);
 
 class ThemeRevealOverlay extends StatefulWidget {
   final ThemeRevealController controller;
   final Widget child;
+  final ThemeSnapshotCapture? captureSnapshot;
 
   const ThemeRevealOverlay({
     super.key,
     required this.controller,
     required this.child,
+    this.captureSnapshot,
   });
 
   @override
@@ -22,7 +30,10 @@ class ThemeRevealOverlay extends StatefulWidget {
 }
 
 class _ThemeRevealOverlayState extends State<ThemeRevealOverlay>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  static const double _maxCapturePixelRatio = 2;
+  static const double _maxCapturePixels = 8 * 1024 * 1024;
+
   final GlobalKey _captureKey = GlobalKey();
 
   late final AnimationController _animationController;
@@ -31,19 +42,27 @@ class _ThemeRevealOverlayState extends State<ThemeRevealOverlay>
 
   ui.Image? _snapshot;
   Offset _origin = Offset.zero;
+  ThemeCubit? _activeCubit;
+  Future<void>? _themePersistence;
+  Size? _transitionPhysicalSize;
+  Size? _transitionBoundarySize;
+  double? _transitionDevicePixelRatio;
   bool _isTransitioning = false;
+  bool _skipAnimation = false;
+  bool _themeChangeAttempted = false;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 500),
     );
     _animation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOutCubic,
     );
+    WidgetsBinding.instance.addObserver(this);
     widget.controller.attach(_revealHandler);
   }
 
@@ -56,71 +75,244 @@ class _ThemeRevealOverlayState extends State<ThemeRevealOverlay>
     }
   }
 
-  Future<void> _revealTheme(Offset? globalOrigin) async {
-    if (_isTransitioning || !mounted) return;
+  @override
+  void didChangeMetrics() {
+    if (!_isTransitioning || !mounted) {
+      return;
+    }
 
-    _isTransitioning = true;
-    ui.Image? capturedImage;
-    var imageStored = false;
-    var themeChanged = false;
+    final boundaryContext = _captureKey.currentContext;
+    final view = View.of(boundaryContext ?? context);
+    final renderObject = boundaryContext?.findRenderObject();
+    final physicalSizeChanged = _transitionPhysicalSize != view.physicalSize;
+    final devicePixelRatioChanged =
+        _transitionDevicePixelRatio != view.devicePixelRatio;
+    final boundarySizeChanged =
+        _transitionBoundarySize != null &&
+        renderObject is RenderBox &&
+        renderObject.hasSize &&
+        renderObject.size != _transitionBoundarySize;
 
-    try {
-      final boundaryContext = _captureKey.currentContext;
-      final renderObject = boundaryContext?.findRenderObject();
-
-      if (boundaryContext == null || renderObject is! RenderRepaintBoundary) {
-        ThemeCubit.get(context).changeTheme();
-        themeChanged = true;
-        return;
-      }
-
-      final image = await renderObject.toImage(
-        pixelRatio: View.of(boundaryContext).devicePixelRatio,
-      );
-      capturedImage = image;
-
-      if (!mounted) return;
-
-      final origin = globalOrigin == null
-          ? renderObject.size.center(Offset.zero)
-          : renderObject.globalToLocal(globalOrigin);
-
-      setState(() {
-        _snapshot = image;
-        _origin = origin;
-      });
-      imageStored = true;
-
-      ThemeCubit.get(context).changeTheme();
-      themeChanged = true;
-      await _animationController.forward(from: 0).orCancel;
-    } on TickerCanceled {
-      // The overlay was removed while its animation was running.
-    } on Object catch (error) {
-      debugPrint('Theme reveal failed: $error');
-      if (!themeChanged && mounted) {
-        ThemeCubit.get(context).changeTheme();
-        themeChanged = true;
-      }
-    } finally {
-      if (mounted) {
-        final imageToDispose = imageStored ? _snapshot : capturedImage;
-        setState(() {
-          if (imageStored) _snapshot = null;
-          _isTransitioning = false;
-        });
-        imageToDispose?.dispose();
-      } else if (!imageStored) {
-        capturedImage?.dispose();
-      }
+    if (physicalSizeChanged || devicePixelRatioChanged || boundarySizeChanged) {
+      _finishForEnvironmentChange();
     }
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) {
+      _finishForEnvironmentChange();
+    }
+  }
+
+  void _finishForEnvironmentChange() {
+    if (!_isTransitioning || !mounted) return;
+
+    _skipAnimation = true;
+    try {
+      _changeThemeOnce();
+    } on Object catch (error) {
+      debugPrint('Theme change failed: $error');
+    }
+    _animationController.stop(canceled: false);
+  }
+
+  void _changeThemeOnce() {
+    if (_themeChangeAttempted) {
+      return;
+    }
+
+    _themeChangeAttempted = true;
+    final cubit = _activeCubit;
+    if (cubit == null || cubit.isClosed) {
+      return;
+    }
+
+    _themePersistence = cubit.changeTheme();
+  }
+
+  bool _shouldReduceMotion() {
+    final disableAnimations =
+        MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final reduceMotion = WidgetsBinding
+        .instance
+        .platformDispatcher
+        .accessibilityFeatures
+        .reduceMotion;
+    return disableAnimations || reduceMotion;
+  }
+
+  double _capturePixelRatio(Size size, double devicePixelRatio) {
+    if (!size.width.isFinite ||
+        !size.height.isFinite ||
+        size.width <= 0 ||
+        size.height <= 0 ||
+        !devicePixelRatio.isFinite ||
+        devicePixelRatio <= 0) {
+      return 1;
+    }
+
+    final logicalPixelCount = size.width * size.height;
+    if (!logicalPixelCount.isFinite || logicalPixelCount <= 0) return 1;
+
+    final memoryBoundRatio = math.sqrt(_maxCapturePixels / logicalPixelCount);
+    return math.min(
+      devicePixelRatio,
+      math.min(_maxCapturePixelRatio, memoryBoundRatio),
+    );
+  }
+
+  Future<void> _revealTheme(Offset? globalOrigin) async {
+    if (_isTransitioning || !mounted) return;
+
+    _isTransitioning = true;
+    _skipAnimation = false;
+    _themeChangeAttempted = false;
+    _themePersistence = null;
+    _transitionPhysicalSize = null;
+    _transitionBoundarySize = null;
+    _transitionDevicePixelRatio = null;
+    ui.Image? unownedImage;
+
+    try {
+      final cubit = ThemeCubit.get(context);
+      _activeCubit = cubit;
+
+      if (_shouldReduceMotion()) {
+        _changeThemeOnce();
+        return;
+      }
+
+      final boundaryContext = _captureKey.currentContext;
+      final renderObject = boundaryContext?.findRenderObject();
+      if (boundaryContext == null ||
+          renderObject is! RenderRepaintBoundary ||
+          !renderObject.attached ||
+          !renderObject.hasSize) {
+        _changeThemeOnce();
+        return;
+      }
+
+      final captureSize = renderObject.size;
+      final view = View.of(boundaryContext);
+      final physicalSize = view.physicalSize;
+      final devicePixelRatio = view.devicePixelRatio;
+      _transitionPhysicalSize = physicalSize;
+      _transitionDevicePixelRatio = devicePixelRatio;
+      _transitionBoundarySize = captureSize;
+      final pixelRatio = _capturePixelRatio(
+        captureSize,
+        devicePixelRatio,
+      );
+      final image =
+          await (widget.captureSnapshot?.call(
+                renderObject,
+                pixelRatio,
+              ) ??
+              renderObject.toImage(pixelRatio: pixelRatio));
+      unownedImage = image;
+
+      if (!mounted) {
+        _changeThemeOnce();
+        return;
+      }
+
+      final currentRenderObject = _captureKey.currentContext
+          ?.findRenderObject();
+      final currentView = View.of(context);
+      final viewResized = currentView.physicalSize != physicalSize;
+      final devicePixelRatioChanged =
+          currentView.devicePixelRatio != devicePixelRatio;
+      final boundaryDetached = !renderObject.attached;
+      final boundaryLostSize = !renderObject.hasSize;
+      final boundaryResized =
+          renderObject.hasSize && renderObject.size != captureSize;
+      final boundaryReplaced = currentRenderObject != renderObject;
+      if (_skipAnimation ||
+          viewResized ||
+          devicePixelRatioChanged ||
+          boundaryDetached ||
+          boundaryLostSize ||
+          boundaryResized ||
+          boundaryReplaced) {
+        _changeThemeOnce();
+        return;
+      }
+
+      final localOrigin = globalOrigin == null
+          ? captureSize.center(Offset.zero)
+          : renderObject.globalToLocal(globalOrigin);
+      final origin = localOrigin.dx.isFinite && localOrigin.dy.isFinite
+          ? localOrigin
+          : captureSize.center(Offset.zero);
+      setState(() {
+        _snapshot = image;
+        _origin = origin;
+      });
+      unownedImage = null;
+
+      _changeThemeOnce();
+      if (!_skipAnimation) {
+        await _animationController.forward(from: 0).orCancel;
+      }
+    } on TickerCanceled {
+      // The overlay was removed while its animation was running.
+    } on Object catch (error) {
+      debugPrint('Theme reveal failed: $error');
+      try {
+        _changeThemeOnce();
+      } on Object catch (themeError) {
+        debugPrint('Theme change failed: $themeError');
+      }
+    } finally {
+      unownedImage?.dispose();
+      if (mounted) {
+        await _removeSnapshotAfterFrame();
+        _isTransitioning = false;
+        _activeCubit = null;
+        _skipAnimation = false;
+        _transitionPhysicalSize = null;
+        _transitionBoundarySize = null;
+        _transitionDevicePixelRatio = null;
+      }
+      await _awaitThemePersistence();
+    }
+  }
+
+  Future<void> _awaitThemePersistence() async {
+    final persistence = _themePersistence;
+    if (persistence == null) return;
+
+    try {
+      await persistence;
+    } on Object catch (error) {
+      debugPrint('Theme persistence failed: $error');
+    }
+  }
+
+  Future<void> _removeSnapshotAfterFrame() async {
+    final image = _snapshot;
+    if (image == null) return;
+
+    setState(() => _snapshot = null);
+    await _disposeAfterFrame(image);
+  }
+
+  Future<void> _disposeAfterFrame(ui.Image image) async {
+    await SchedulerBinding.instance.endOfFrame;
+    image.dispose();
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     widget.controller.detach(_revealHandler);
     _animationController.dispose();
-    _snapshot?.dispose();
+
+    final image = _snapshot;
+    _snapshot = null;
+    if (image != null) unawaited(_disposeAfterFrame(image));
+
     super.dispose();
   }
 
@@ -155,8 +347,17 @@ class _CircularRevealClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final farthestX = math.max(origin.dx, size.width - origin.dx);
-    final farthestY = math.max(origin.dy, size.height - origin.dy);
+    final safeOrigin = origin.dx.isFinite && origin.dy.isFinite
+        ? origin
+        : size.center(Offset.zero);
+    final farthestX = math.max(
+      safeOrigin.dx.abs(),
+      (size.width - safeOrigin.dx).abs(),
+    );
+    final farthestY = math.max(
+      safeOrigin.dy.abs(),
+      (size.height - safeOrigin.dy).abs(),
+    );
     final maxRadius = math.sqrt(farthestX * farthestX + farthestY * farthestY);
     final radius = (maxRadius + 1) * animation.value;
 
@@ -164,8 +365,8 @@ class _CircularRevealClipper extends CustomClipper<Path> {
       ..fillType = PathFillType.evenOdd
       ..addRect(Offset.zero & size);
 
-    if (radius > 0) {
-      path.addOval(Rect.fromCircle(center: origin, radius: radius));
+    if (radius > 0 && radius.isFinite) {
+      path.addOval(Rect.fromCircle(center: safeOrigin, radius: radius));
     }
 
     return path;

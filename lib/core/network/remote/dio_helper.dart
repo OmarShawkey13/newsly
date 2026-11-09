@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:newsly/core/di/injections.dart';
 import 'package:newsly/core/error/failures.dart';
+import 'package:newsly/core/network/local/cache_helper.dart';
 import 'package:newsly/core/network/remote/api_endpoints.dart';
 import 'package:newsly/core/network/remote/either.dart';
 
@@ -12,10 +13,16 @@ class DioHelper {
     Map<String, dynamic>? query,
     String? search,
     String? token,
+    String? lang,
   }) async {
     try {
       final queryParameters = <String, dynamic>{...?query};
       if (search != null) queryParameters['q'] = search;
+
+      final currentLang =
+          lang ??
+          (CacheHelper.getData(key: 'isArabicLang') == true ? 'ar' : 'en');
+      queryParameters['language'] = queryParameters['language'] ?? currentLang;
 
       final Response response = await getDio().get(
         url,
@@ -24,6 +31,8 @@ class DioHelper {
           headers: {
             'X-Api-Key': apiKey,
             if (token != null) 'Authorization': 'Bearer $token',
+            'lang': currentLang,
+            'Accept-Language': currentLang,
           },
         ),
       );
